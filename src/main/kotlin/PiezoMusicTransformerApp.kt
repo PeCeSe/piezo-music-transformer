@@ -24,11 +24,12 @@ class PiezoMusicTransformerApp {
         val toneSegments = song.score.map { track ->
             var currentDuration = 0f
             track.beats.mapIndexed { i, beat ->
-                if(i > 0)
-                    currentDuration += 1f / beat.toFloat()
-                ToneSegment(track.pitches[i], beat, track.pin, currentDuration)
+                val toneSegment = ToneSegment(track.pitches[i], beat, track.pin, currentDuration)
+                currentDuration += 1f / beat.toFloat()
+                toneSegment
             }
         }.flatten().sortedBy { it.currentDuration }
+
         return PiezoSpec(
             song.name,
             song.tempo,
@@ -41,7 +42,7 @@ class PiezoMusicTransformerApp {
 
     private fun getDifferences(timestamps: List<Float>): List<Float> {
         return timestamps.mapIndexed { index, fl ->
-                fl - timestamps.getOrElse(index - 1 ) { 0f }
+                timestamps.getOrElse(index + 1 ) { fl } - fl
         }
     }
 
