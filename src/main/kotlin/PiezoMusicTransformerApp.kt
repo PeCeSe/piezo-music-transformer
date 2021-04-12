@@ -52,5 +52,5 @@ fun main() {
 
     val transformer = PiezoMusicTransformerApp()
 
-    transformer.transformSong("songs/raidersMarch.json")
+    transformer.transformSong("songs/hurraForDeg.json")
 }
